@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: incidents
+  datasource:
+    url: jdbc:postgresql://localhost:5434/incidents
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+  flyway:
+    url: jdbc:postgresql://localhost:5434/incidents
+    user: postgres
+    password: postgres
+    enabled: true
+  data:
+    rest:
+      default-media-type: application/json
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
+  jackson:
+    default-property-inclusion: NON_NULL
