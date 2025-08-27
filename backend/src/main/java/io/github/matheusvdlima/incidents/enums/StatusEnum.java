@@ -21,6 +21,6 @@ public enum StatusEnum {
         return Arrays.stream(values())
                 .filter(s -> s.code.equals(code))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Código inválido: " + code));
+                .orElseThrow(() -> new IllegalArgumentException("Status inválido."));
     }
 }

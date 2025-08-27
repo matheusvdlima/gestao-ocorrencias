@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: incidents_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: incidents_db
+      POSTGRES_USER: incidents_user
+      POSTGRES_PASSWORD: incidents_pass
+    ports:
+      - '5434:5432'
+    volumes:
+      - ./db_data:/var/lib/postgresql/data

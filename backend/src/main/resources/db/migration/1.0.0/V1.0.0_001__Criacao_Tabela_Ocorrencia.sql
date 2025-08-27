@@ -39,5 +39,5 @@ COMMENT ON COLUMN public.tb_ocorrencia.data_abertura IS 'Data de abertura da oco
 COMMENT ON COLUMN public.tb_ocorrencia.data_atualizacao IS 'Data da última modificação da ocorrência';
 
 -- Permissões
-ALTER TABLE public.tb_ocorrencia OWNER TO postgres;
-GRANT ALL ON TABLE public.tb_ocorrencia TO postgres;
+ALTER TABLE public.tb_ocorrencia OWNER TO incidents_user;
+GRANT ALL ON TABLE public.tb_ocorrencia TO incidents_user;

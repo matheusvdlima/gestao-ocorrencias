@@ -7,19 +7,18 @@ import java.util.Arrays;
 
 @AllArgsConstructor
 @Getter
-public enum PrioridadeEnum {
+public enum PerfilEnum {
 
-    BAIXA("BAIXA", "Baixa"),
-    MEDIA("MEDIA", "Média"),
-    ALTA("ALTA", "Alta");
+    GESTOR("GESTOR", "Gestor"),
+    USUARIO("USUARIO", "Usuário");
 
     private final String code;
     private final String label;
 
-    public static PrioridadeEnum fromCode(String code) {
+    public static PerfilEnum fromCode(String code) {
         return Arrays.stream(values())
                 .filter(p -> p.code.equals(code))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Prioridade inválida."));
+                .orElseThrow(() -> new IllegalArgumentException("Perfil inválido."));
     }
 }

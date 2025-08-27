@@ -2,16 +2,16 @@ spring:
   application:
     name: incidents
   datasource:
-    url: jdbc:postgresql://localhost:5434/incidents
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5434/incidents_db
+    username: incidents_user
+    password: incidents_pass
   jpa:
     open-in-view: false
     show-sql: true
   flyway:
-    url: jdbc:postgresql://localhost:5434/incidents
-    user: postgres
-    password: postgres
+    url: jdbc:postgresql://localhost:5434/incidents_db
+    user: incidents_user
+    password: incidents_pass
     enabled: true
   data:
     rest:
@@ -22,3 +22,7 @@ spring:
         max-page-size: 100
   jackson:
     default-property-inclusion: NON_NULL
+
+jwt:
+  secret: IncidentManagement
+  expiration: 6000000

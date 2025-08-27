@@ -29,5 +29,5 @@ COMMENT ON COLUMN public.tb_comentario.mensagem IS 'Texto do comentário';
 COMMENT ON COLUMN public.tb_comentario.data_criacao IS 'Data de criação do comentário';
 
 -- Permissões
-ALTER TABLE public.tb_comentario OWNER TO postgres;
-GRANT ALL ON TABLE public.tb_comentario TO postgres;
+ALTER TABLE public.tb_comentario OWNER TO incidents_user;
+GRANT ALL ON TABLE public.tb_comentario TO incidents_user;
