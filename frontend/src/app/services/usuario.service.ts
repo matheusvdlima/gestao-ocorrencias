@@ -32,7 +32,7 @@ export class UsuarioService {
     if (filtro.perfil) {
       params = params.set('perfil', filtro.perfil);
     }
-    if (filtro.sort) {
+    if (filtro.sort && !filtro.sort.startsWith('undefined')) {
       params = params.set('sort', filtro.sort);
     }
 
@@ -41,6 +41,10 @@ export class UsuarioService {
 
   buscarPorId(id: string): Observable<Usuario> {
     return this.http.get<Usuario>(`${API}/${id}`, httpOptions);
+  }
+
+  buscarPorEmail(email: string): Observable<Usuario> {
+    return this.http.get<Usuario>(`${API}/email/${email}`, httpOptions);
   }
 
   criar(usuario: Usuario): Observable<Usuario> {

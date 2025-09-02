@@ -51,6 +51,13 @@ public class UsuarioApi {
         return ResponseEntity.ok(usuarioMapper.toDTO(usuario));
     }
 
+    @GetMapping("/email/{email}")
+    @Operation(summary = "Busca usuário pelo e-mail")
+    public ResponseEntity<UsuarioDto> buscarPorEmail(final @PathVariable String email) {
+        Usuario usuario = usuarioService.buscarPorEmail(email);
+        return ResponseEntity.ok(usuarioMapper.toDTO(usuario));
+    }
+
     @PostMapping
     @Operation(summary = "Cria novo usuário")
     public ResponseEntity<UsuarioDto> criar(@Valid @RequestBody UsuarioRequestDto dto) {

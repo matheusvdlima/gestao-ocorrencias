@@ -36,7 +36,7 @@ export class OcorrenciaService {
     if (filtro.prioridade) {
       params = params.set('prioridade', filtro.prioridade);
     }
-    if (filtro.sort) {
+    if (filtro.sort && !filtro.sort.startsWith('undefined')) {
       params = params.set('sort', filtro.sort);
     }
 
@@ -68,6 +68,6 @@ export class OcorrenciaService {
   }
 
   criarComentariosOcorrencia(id: string, comentario: Comentario[]): Observable<Comentario[]> {
-    return this.http.post<Comentario[]>(`${API}/${id}/comments`, comentario, httpOptions);
+    return this.http.post<Comentario[]>(`${API}/${id}/comments`, [comentario], httpOptions);
   }
 }

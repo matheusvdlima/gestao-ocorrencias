@@ -10,13 +10,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public record UserSS(
         UUID id,
+        String nome,
         String email,
         String senha,
         Collection<? extends GrantedAuthority> authorities
 ) implements UserDetails {
 
-    public UserSS(UUID id, String email, String senha, String perfil) {
-        this(id, email, senha, List.of(new SimpleGrantedAuthority("ROLE_" + perfil)));
+    public UserSS(UUID id, String nome, String email, String senha, String perfil) {
+        this(id, nome, email, senha, List.of(new SimpleGrantedAuthority("ROLE_" + perfil)));
     }
 
     @Override

@@ -16,15 +16,17 @@ export class UsuarioFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Usuario
+    @Inject(MAT_DIALOG_DATA) public data: { value: Usuario }
   ) {
-    this.isEdit = !!data;
+    this.isEdit = !!data.value;
+
+    console.log(data.value);
 
     this.form = this.fb.group(
       {
-        nome: [data?.nome || '', [Validators.required, Validators.maxLength(150)]],
-        email: [data?.email || '', [Validators.required, Validators.email, Validators.maxLength(120)]],
-        perfis: [data?.perfis || '', !this.isEdit ? Validators.required : []]
+        nome: [data.value?.nome || '', [Validators.required, Validators.maxLength(150)]],
+        email: [data.value?.email || '', [Validators.required, Validators.email, Validators.maxLength(120)]],
+        perfil: [data.value?.perfil.code || '', !this.isEdit ? Validators.required : []]
       }
     );
   }

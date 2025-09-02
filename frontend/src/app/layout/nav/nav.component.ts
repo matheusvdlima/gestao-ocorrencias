@@ -5,6 +5,7 @@ import { AuthService } from '../../security/auth.service';
 import { DialogService } from '../dialog/dialog.service';
 import { SenhaFormComponent } from './senha-form/senha-form.component';
 import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-nav',
@@ -14,7 +15,8 @@ import { UsuarioService } from '../../services/usuario.service';
 })
 export class NavComponent implements OnInit {
 
-  usuario = "John Doe";
+  usuario!: string;
+  perfil!: string;
 
   constructor(
     private router: Router,
@@ -26,6 +28,18 @@ export class NavComponent implements OnInit {
 
   ngOnInit(): void {
     this.router.navigate(['home']);
+
+    const email = this.authService.getUser()?.email || this.authService.getUserName();
+
+    this.usuarioService.buscarPorEmail(email).subscribe({
+      next: (res: Usuario) => {
+        this.usuario = res.nome;
+        this.perfil = res.perfil.code;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar usuário:', err);
+      }
+    });
   }
 
   alterarSenha(): void {
@@ -34,7 +48,7 @@ export class NavComponent implements OnInit {
       title: 'ALTERAR SENHA',
     }).subscribe((result: any) => {
       if (result) {
-        this.usuarioService.atualizarSenha('', result.perfis).subscribe({
+        this.usuarioService.atualizarSenha('', result.perfil).subscribe({
           next: () => {
             this.toastrService.success('Senha alterada com sucesso!');
           },

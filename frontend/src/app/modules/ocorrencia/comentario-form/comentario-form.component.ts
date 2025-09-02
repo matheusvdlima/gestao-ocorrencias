@@ -15,7 +15,7 @@ export class ComentarioFormComponent implements OnInit {
 
   form!: FormGroup;
   comentarios = new MatTableDataSource<Comentario>([]);
-  displayedColumns: string[] = ['autor', 'mensagem', 'acoes'];
+  displayedColumns: string[] = ['dataCriacao', 'autor', 'mensagem', 'acoes'];
 
   constructor(
     private fb: FormBuilder,

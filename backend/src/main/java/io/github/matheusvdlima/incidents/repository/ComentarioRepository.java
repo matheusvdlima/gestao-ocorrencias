@@ -8,8 +8,6 @@ import java.util.UUID;
 
 public interface ComentarioRepository extends JpaRepository<Comentario, UUID> {
 
-    List<Comentario> findByOcorrenciaId(UUID ocorrenciaId);
-
-    void deleteAllByOcorrenciaId(UUID ocorrenciaId);
+    List<Comentario> findByOcorrenciaIdOrderByDataCriacaoDesc(UUID idOcorrencia);
 
 }

@@ -114,7 +114,7 @@ export class UsuarioComponent implements OnInit {
       title: 'CADASTRAR USUÁRIO'
     }).subscribe((result: any) => {
       if (result) {
-        this.usuarioService.criar(result).subscribe({
+        this.usuarioService.criar({ ...result, senha: 123456 }).subscribe({
           next: () => {
             this.toastrService.success('Usuário cadastrado com sucesso!');
             this.carregarUsuarios();
@@ -131,6 +131,7 @@ export class UsuarioComponent implements OnInit {
       title: 'EDITAR USUÁRIO',
       value: usuario
     }).subscribe((result: any) => {
+      console.log(result)
       if (result) {
         this.usuarioService.atualizar({ ...usuario, ...result }).subscribe({
           next: () => {
@@ -149,8 +150,8 @@ export class UsuarioComponent implements OnInit {
       title: 'ALTERAR PERFIL',
       value: usuario
     }).subscribe((result: any) => {
-      if (result?.perfis && result.perfis !== usuario.perfis) {
-        this.usuarioService.atualizarPerfil(usuario.id!, result.perfis).subscribe({
+      if (result?.perfil && result.perfil !== usuario.perfil) {
+        this.usuarioService.atualizarPerfil(usuario.id!, result.perfil).subscribe({
           next: () => {
             this.toastrService.success('Perfil atualizado com sucesso!');
             this.carregarUsuarios();

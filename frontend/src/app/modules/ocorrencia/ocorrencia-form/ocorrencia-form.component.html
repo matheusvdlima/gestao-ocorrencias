@@ -28,7 +28,8 @@
       <mat-select formControlName="status">
         <mat-option value="ABERTA">Aberta</mat-option>
         <mat-option value="EM_ANDAMENTO">Em andamento</mat-option>
-        <mat-option value="CONCLUIDA">Concluída</mat-option>
+        <mat-option value="RESOLVIDA">Resolvida</mat-option>
+        <mat-option value="CANCELADA">Cancelada</mat-option>
       </mat-select>
       <mat-error *ngIf="form.get('status')?.hasError('required')">
         O status é obrigatório

@@ -19,7 +19,7 @@ public class ComentarioService {
     private final OcorrenciaRepository ocorrenciaRepository;
 
     public List<Comentario> listarPorOcorrencia(UUID idOcorrencia) {
-        return comentarioRepository.findByOcorrenciaId(idOcorrencia);
+        return comentarioRepository.findByOcorrenciaIdOrderByDataCriacaoDesc(idOcorrencia);
     }
 
     @Transactional
@@ -27,11 +27,13 @@ public class ComentarioService {
         Ocorrencia ocorrencia = ocorrenciaRepository.findById(idOcorrencia)
                 .orElseThrow(() -> new RuntimeException("Ocorrência não encontrada"));
 
-        comentarioRepository.deleteAllByOcorrenciaId(idOcorrencia);
+        List<Comentario> novosComentarios = comentarios.stream()
+                .filter(c -> c.getId() == null)
+                .peek(c -> c.setOcorrencia(ocorrencia))
+                .toList();
 
-        comentarios.forEach(c -> c.setOcorrencia(ocorrencia));
-
-        return comentarioRepository.saveAll(comentarios);
+        return comentarioRepository.saveAll(novosComentarios);
     }
+
 
 }

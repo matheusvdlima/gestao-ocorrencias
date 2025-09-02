@@ -69,7 +69,7 @@ export class OcorrenciaComponent implements OnInit {
     this.ocorrenciaService.listarOcorrencias({
       page: this.pageIndex,
       size: this.pageSize,
-      sort: this.sort ? `${this.sort.active},${this.sort.direction}` : undefined,
+      sort: this.sort ? `${this.sort.active},${this.sort.direction}` : 'dataAbertura,',
       texto: this.filtroTexto,
       status: this.filtroStatus,
       prioridade: this.filtroPrioridade
@@ -88,7 +88,7 @@ export class OcorrenciaComponent implements OnInit {
         texto: this.filtroTexto || null,
         status: this.filtroStatus || null,
         prioridade: this.filtroPrioridade || null,
-        sort: this.sort ? `${this.sort.active},${this.sort.direction}` : null
+        sort: this.sort ? `${this.sort.active},${this.sort.direction}` : 'dataAbertura,'
       },
       queryParamsHandling: 'merge'
     });
@@ -162,6 +162,7 @@ export class OcorrenciaComponent implements OnInit {
       title: 'GERENCIAR COMENTÁRIOS',
       value: { idOcorrencia: ocorrencia.id }
     }).subscribe((comentarios: Comentario[]) => {
+      console.log(comentarios)
       this.ocorrenciaService.criarComentariosOcorrencia(ocorrencia.id!, comentarios).subscribe({
         next: () => {
           this.toastrService.success('Comentários adicionados com sucesso!');
@@ -169,7 +170,6 @@ export class OcorrenciaComponent implements OnInit {
         error: () => this.toastrService.error('Erro ao adicionar comentários.')
       });
     });
-
   }
 
   alterarStatus(ocorrencia: Ocorrencia): void {

@@ -22,7 +22,7 @@ import java.util.UUID;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public Page<Usuario> listar(Pageable pageable, String perfil, String texto) {
         Specification<Usuario> spec = (root, query, cb) -> {
@@ -46,6 +46,11 @@ public class UsuarioService {
 
     public Usuario buscarPorId(UUID id) {
         return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
+    public Usuario buscarPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 

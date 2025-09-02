@@ -22,6 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return usuarioRepository.findByEmail(email)
                 .map(user -> new UserSS(
                         user.getId(),
+                        user.getNome(),
                         user.getEmail(),
                         user.getSenha(),
                         user.getPerfil().name()

@@ -1,9 +1,11 @@
+import { Dominio } from "./dominio";
+
 export interface Usuario {
   id?: string;
   nome: string;
   email: string;
   senha: string;
-  perfis: string;
+  perfil: Dominio;
   dataCriacao: string;
 }
 

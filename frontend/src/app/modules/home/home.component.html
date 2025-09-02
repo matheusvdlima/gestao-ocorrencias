@@ -52,6 +52,7 @@
         <table>
           <thead>
             <tr>
+              <th>Data de Abertura</th>
               <th>Título</th>
               <th>Status</th>
               <th>Prioridade</th>
@@ -60,6 +61,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let ocorrencia of ocorrencias">
+              <td>{{ ocorrencia.dataAbertura | date:'dd/MM/yyyy HH:mm' }}</td>
               <td>{{ ocorrencia.titulo }}</td>
               <td>{{ ocorrencia.status.label }}</td>
               <td [ngClass]="ocorrencia.prioridade.code">
@@ -72,11 +74,5 @@
       </mat-card>
     </div>
 
-    <mat-card class="alerts-card">
-      <mat-card-title>Notificações</mat-card-title>
-      <div class="alerts-content">
-        Nenhuma notificação disponível
-      </div>
-    </mat-card>
   </div>
 </div>

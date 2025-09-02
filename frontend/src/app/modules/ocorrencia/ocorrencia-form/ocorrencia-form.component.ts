@@ -19,18 +19,18 @@ export class OcorrenciaFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Ocorrencia
+    @Inject(MAT_DIALOG_DATA) public data: { value: Ocorrencia}
   ) {
     this.isEdit = !!data;
 
     this.form = this.fb.group({
-      titulo: [data?.titulo || '', [Validators.required, Validators.maxLength(120)]],
-      descricao: [data?.descricao || '', [Validators.required, Validators.maxLength(500)]],
-      status: [data?.status || 'ABERTA', Validators.required],
-      prioridade: [data?.prioridade || 'MEDIA', Validators.required],
-      dataCriacao: [data?.dataAbertura || new Date(), Validators.required],
-      emailResponsavel: [data?.emailResponsavel || '', [Validators.required, Validators.email]],
-      tags: this.fb.array(data?.tags?.map((t: string) => this.fb.control(t)) || [])
+      titulo: [data.value?.titulo || '', [Validators.required, Validators.maxLength(120)]],
+      descricao: [data.value?.descricao || '', [Validators.required, Validators.maxLength(500)]],
+      status: [data.value?.status.code || 'ABERTA', Validators.required],
+      prioridade: [data.value?.prioridade.code || 'MEDIA', Validators.required],
+      dataCriacao: [data.value?.dataAbertura || new Date(), Validators.required],
+      emailResponsavel: [data.value?.emailResponsavel || '', [Validators.required, Validators.email]],
+      tags: this.fb.array(data.value?.tags?.map((t: string) => this.fb.control(t)) || [])
     });
   }
 

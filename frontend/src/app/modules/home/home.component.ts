@@ -5,6 +5,8 @@ import { EstatisticaService } from '../../services/estatistica.service';
 import { Ocorrencia } from '../../models/ocorrencia';
 import { Estatistica } from '../../models/estatistica';
 import { AuthService } from '../../security/auth.service';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../models/usuario';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +16,7 @@ import { AuthService } from '../../security/auth.service';
 })
 export class HomeComponent implements OnInit {
 
-  usuario = "John Doe";
+  usuario!: string;
   ocorrencias: Ocorrencia[] = [];
   estatistica?: Estatistica;
 
@@ -28,6 +30,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private ocorrenciaService: OcorrenciaService,
     private estatisticaService: EstatisticaService,
+    private usuarioService: UsuarioService,
     private toastrService: ToastrService,
     private authService: AuthService
   ) { }
@@ -37,6 +40,17 @@ export class HomeComponent implements OnInit {
       if (loggedIn) {
         this.carregarOcorrencias();
         this.carregarEstatisticas();
+      }
+    });
+
+    const email = this.authService.getUser()?.email || this.authService.getUserName();
+
+    this.usuarioService.buscarPorEmail(email).subscribe({
+      next: (res: Usuario) => {
+        this.usuario = res.nome;
+      },
+      error: (err) => {
+        console.error('Erro ao buscar usuário:', err);
       }
     });
   }

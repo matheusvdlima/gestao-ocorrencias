@@ -17,7 +17,7 @@ export class DialogService {
     readonly?: boolean;
   }) {
     const dialogRef = this.dialog.open(DialogFormComponent, {
-      width: '500px',
+      width: '1500px',
       data: {
         formComponent: config.formComponent,
         title: config.title,

@@ -9,13 +9,15 @@
     <textarea matInput formControlName="mensagem"></textarea>
   </mat-form-field>
 
-  <button mat-stroked-button color="primary" (click)="adicionarComentario()" [disabled]="form.invalid">
-    Adicionar
-  </button>
 </form>
 
 <div class="comentarios-tabela" *ngIf="comentarios.data.length > 0">
   <table mat-table [dataSource]="comentarios" class="mat-elevation-z1">
+
+    <ng-container matColumnDef="dataCriacao">
+      <th mat-header-cell *matHeaderCellDef>Data</th>
+      <td mat-cell *matCellDef="let c">{{ c.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</td>
+    </ng-container>
 
     <ng-container matColumnDef="autor">
       <th mat-header-cell *matHeaderCellDef>Autor</th>

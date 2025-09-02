@@ -19,7 +19,7 @@ export class PerfilFormComponent {
   ) {
 
     this.form = this.fb.group(
-      { perfis: [data?.perfis || '', Validators.required] }
+      { perfil: [data?.perfil || '', Validators.required] }
     );
   }
 }
