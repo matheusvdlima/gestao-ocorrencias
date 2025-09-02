@@ -45,17 +45,9 @@ Swagger UI: http://localhost:8080/swagger-ui.html
 
 Banco de Dados: postgres://localhost:5434/incidents_db
 
-🌐 Endpoints
 
-Frontend (Angular): http://localhost:4200
 
-Backend (Spring Boot): http://localhost:8080
-
-Swagger UI (API Docs): http://localhost:8080/swagger-ui.html
-
-Banco de Dados (PostgreSQL local): postgres://localhost:5434/incidents_db
-
-👤 Usuário Padrão
+##### 👤 Usuário Padrão
 
 O sistema já vem com um usuário administrador para acesso inicial:
 
