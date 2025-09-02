@@ -56,7 +56,7 @@ export class OcorrenciaService {
   }
 
   atualizarStatus(id: string, status: string): Observable<Ocorrencia> {
-    return this.http.patch<Ocorrencia>(`${API}/${id}/status`, status, httpOptions);
+    return this.http.patch<Ocorrencia>(`${API}/${id}/status`, {status}, httpOptions);
   }
 
   deletarOcorrencia(id: string): Observable<Ocorrencia> {

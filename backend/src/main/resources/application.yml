@@ -9,17 +9,17 @@ spring:
     open-in-view: false
     show-sql: true
   flyway:
+    enabled: true
     url: jdbc:postgresql://localhost:5434/incidents_db
     user: incidents_user
     password: incidents_pass
-    enabled: true
   data:
     rest:
       default-media-type: application/json
-    web:
-      pageable:
-        default-page-size: 10
-        max-page-size: 100
+  web:
+    pageable:
+      default-page-size: 10
+      max-page-size: 100
   jackson:
     default-property-inclusion: NON_NULL
 

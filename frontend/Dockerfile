@@ -4,12 +4,18 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --silent
 COPY . .
-# ajuste o nome do projeto conforme o seu dist
-RUN npm run build -- --configuration production
+# use a config que compila (docker)
+RUN npm run build -- --configuration docker
 
 # serve
 FROM nginx:alpine
-# proxy do /api -> backend:8080 (ajuste se seu backend tiver prefixo)
+# remove o site padrão (evita colisão)
+RUN rm -f /usr/share/nginx/html/*
+
+# seu nginx.conf customizado
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist/ /usr/share/nginx/html/
+
+# ⬅️ COPIE O DIRETÓRIO CERTO (Angular application builder gera /browser)
+COPY --from=build /app/dist/frontend/browser/ /usr/share/nginx/html/
+
 EXPOSE 80

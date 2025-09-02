@@ -131,7 +131,6 @@ export class UsuarioComponent implements OnInit {
       title: 'EDITAR USUÁRIO',
       value: usuario
     }).subscribe((result: any) => {
-      console.log(result)
       if (result) {
         this.usuarioService.atualizar({ ...usuario, ...result }).subscribe({
           next: () => {

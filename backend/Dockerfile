@@ -9,9 +9,12 @@ RUN mvn -q -DskipTests package
 # run
 FROM eclipse-temurin:21-jre
 WORKDIR /app
+
+# ⬅️ necessário para o healthcheck do compose
+RUN apt-get update && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV JAVA_TOOL_OPTIONS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75"
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-HEALTHCHECK --interval=10s --timeout=5s --retries=12 --start-period=20s \
-  CMD wget -qO- http://localhost:8080/actuator/health | grep -q '"status":"UP"' || exit 1
 ENTRYPOINT ["java","-jar","/app/app.jar"]

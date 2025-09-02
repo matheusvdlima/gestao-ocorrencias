@@ -20,8 +20,6 @@ export class UsuarioFormComponent {
   ) {
     this.isEdit = !!data.value;
 
-    console.log(data.value);
-
     this.form = this.fb.group(
       {
         nome: [data.value?.nome || '', [Validators.required, Validators.maxLength(150)]],

@@ -1,0 +1,28 @@
+version: '3.9'
+
+networks:
+  incidents_net:
+
+volumes:
+  db_data:
+
+services:
+  db:
+    image: postgres:16
+    container_name: incidents_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-incidents_db}
+      POSTGRES_USER: ${POSTGRES_USER:-incidents_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-incidents_pass}
+    ports:
+      - "5434:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - incidents_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-incidents_user} -d ${POSTGRES_DB:-incidents_db} -h localhost -p 5432 || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20

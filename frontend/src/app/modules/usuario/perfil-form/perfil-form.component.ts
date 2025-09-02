@@ -15,11 +15,11 @@ export class PerfilFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Usuario
+    @Inject(MAT_DIALOG_DATA) public data: { valeu: Usuario }
   ) {
 
     this.form = this.fb.group(
-      { perfil: [data?.perfil || '', Validators.required] }
+      { perfil: [data.valeu?.perfil.code || '', Validators.required] }
     );
   }
 }

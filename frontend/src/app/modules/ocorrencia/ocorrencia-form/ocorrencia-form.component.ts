@@ -5,6 +5,11 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Ocorrencia } from '../../../models/ocorrencia';
 
+type DialogData = {
+  value: Ocorrencia;
+  readonly?: boolean;
+};
+
 @Component({
   selector: 'app-ocorrencia-form',
   standalone: false,
@@ -19,19 +24,23 @@ export class OcorrenciaFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { value: Ocorrencia}
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
-    this.isEdit = !!data;
+    this.isEdit = !!data?.value && !data?.readonly;
 
     this.form = this.fb.group({
-      titulo: [data.value?.titulo || '', [Validators.required, Validators.maxLength(120)]],
-      descricao: [data.value?.descricao || '', [Validators.required, Validators.maxLength(500)]],
-      status: [data.value?.status.code || 'ABERTA', Validators.required],
-      prioridade: [data.value?.prioridade.code || 'MEDIA', Validators.required],
-      dataCriacao: [data.value?.dataAbertura || new Date(), Validators.required],
-      emailResponsavel: [data.value?.emailResponsavel || '', [Validators.required, Validators.email]],
-      tags: this.fb.array(data.value?.tags?.map((t: string) => this.fb.control(t)) || [])
+      titulo: [data.value?.titulo ?? '', [Validators.required, Validators.maxLength(120)]],
+      descricao: [data.value?.descricao ?? '', [Validators.required, Validators.maxLength(500)]],
+      status: [data.value?.status?.code ?? 'ABERTA', Validators.required],
+      prioridade: [data.value?.prioridade?.code ?? 'MEDIA', Validators.required],
+      dataCriacao: [data.value?.dataAbertura ?? new Date(), Validators.required],
+      emailResponsavel: [data.value?.emailResponsavel ?? '', [Validators.required, Validators.email]],
+      tags: this.fb.array(data.value?.tags?.map((t: string) => this.fb.control(t)) ?? [])
     });
+
+    if (data?.readonly) {
+      this.form.disable({ emitEvent: false });
+    }
   }
 
   get tags(): FormArray {
@@ -39,14 +48,16 @@ export class OcorrenciaFormComponent {
   }
 
   addTag(event: MatChipInputEvent): void {
+    if (this.data?.readonly) return;
     const value = (event.value || '').trim();
     if (value) {
       this.tags.push(this.fb.control(value));
     }
-    event.chipInput!.clear();
+    event.chipInput?.clear();
   }
 
   removeTag(index: number): void {
+    if (this.data?.readonly) return;
     this.tags.removeAt(index);
   }
 }

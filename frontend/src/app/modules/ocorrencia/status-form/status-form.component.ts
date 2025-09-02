@@ -14,10 +14,10 @@ export class StatusFormComponent {
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: Ocorrencia
+    @Inject(MAT_DIALOG_DATA) public data: { value: Ocorrencia }
   ) {
     this.form = this.fb.group({
-      status: [data?.status || '', Validators.required]
+      status: [data.value?.status.code || '', Validators.required]
     });
   }
 }

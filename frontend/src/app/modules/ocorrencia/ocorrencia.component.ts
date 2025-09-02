@@ -162,7 +162,6 @@ export class OcorrenciaComponent implements OnInit {
       title: 'GERENCIAR COMENTÁRIOS',
       value: { idOcorrencia: ocorrencia.id }
     }).subscribe((comentarios: Comentario[]) => {
-      console.log(comentarios)
       this.ocorrenciaService.criarComentariosOcorrencia(ocorrencia.id!, comentarios).subscribe({
         next: () => {
           this.toastrService.success('Comentários adicionados com sucesso!');

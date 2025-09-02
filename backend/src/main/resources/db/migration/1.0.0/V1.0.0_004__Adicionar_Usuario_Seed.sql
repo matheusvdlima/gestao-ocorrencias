@@ -10,9 +10,9 @@
 INSERT INTO public.tb_usuario (id, nome, email, senha, perfil, data_criacao)
 VALUES (
     '11111111-1111-1111-1111-111111111111',
-    'admin',
-    'admin@incidents.com',
-    '$2a$10$7Q0kFZpWQ0Kh3yb6jZKXzO9M6u5kbYo/uEHVl2PnQXtyjd1sRScg2',
+    'Matheus Lima',
+    'matheus@incidents.com',
+    '$2a$10$ps9xsYOBRI4dKG/be.RF4O4Ady0PvTSmjfKTFpXKykU4fIZWg8QhW',
     'ADMIN',
     NOW()
 );
