@@ -1,6 +1,6 @@
 # Gestão de Ocorrências
 
-[![Java](https://img.shields.io/badge/Java-21-007396?logo=openjdk)](https://openjdk.org/projects/jdk/21/)
+[![Java](https://img.shields.io/badge/Java-17-007396?logo=openjdk)](https://openjdk.org/projects/jdk/17/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?logo=springboot)](https://spring.io/projects/spring-boot)
 [![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular)](https://angular.dev/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
@@ -11,7 +11,7 @@ Sistema fullstack para gestão de ocorrências, com **Spring Boot + Angular + Po
 ---
 
 ## 🚀 Tecnologias
-- **Backend:** Java 21, Spring Boot, Spring Security (JWT), Flyway, Maven, Swagger/OpenAPI  
+- **Backend:** Java 17, Spring Boot, Spring Security (JWT), Flyway, Maven, Swagger/OpenAPI  
 - **Frontend:** Angular 19, Angular Material, ngx-toastr, ngx-charts  
 - **Banco:** PostgreSQL 16  
 - **Infra:** Docker, Docker Compose, Nginx  
@@ -33,7 +33,9 @@ cd gestao-ocorrencias
 # subir os containers
 docker compose up -d --build
 
--> Endpoints
+```
+
+#### 🌐 Endpoints
 
 Frontend: http://localhost:4200
 
@@ -41,4 +43,22 @@ Backend: http://localhost:8080
 
 Swagger UI: http://localhost:8080/swagger-ui.html
 
-Banco (local): postgres://localhost:5434/incidents_db
+Banco de Dados: postgres://localhost:5434/incidents_db
+
+🌐 Endpoints
+
+Frontend (Angular): http://localhost:4200
+
+Backend (Spring Boot): http://localhost:8080
+
+Swagger UI (API Docs): http://localhost:8080/swagger-ui.html
+
+Banco de Dados (PostgreSQL local): postgres://localhost:5434/incidents_db
+
+👤 Usuário Padrão
+
+O sistema já vem com um usuário administrador para acesso inicial:
+
+Usuário: matheus@incidents.com
+
+Senha: 123456
