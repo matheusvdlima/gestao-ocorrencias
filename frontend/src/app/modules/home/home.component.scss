@@ -1,0 +1,116 @@
+.home-container {
+  max-width: 1250px;
+  margin: 1.5rem auto;
+  padding: 0 2rem;
+
+  .welcome-title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1.75rem;
+    color: #333;
+  }
+
+  .stats-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+
+    .stat-card {
+      flex: 1 1 calc(33.333% - 1rem);
+      position: relative;
+      border-top: 4px solid #00a651;
+      background: #fff;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      line-height: 1.25rem;
+
+      h3 {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #333;
+      }
+
+      .value {
+        font-size: 1.8rem;
+        font-weight: bold;
+        margin: 0.35rem 0;
+      }
+
+      span {
+        color: #555;
+        font-size: 0.8rem;
+      }
+
+      .card-icon {
+        position: absolute;
+        width: 1.8rem;
+        height: 1.8rem;
+        top: 2rem;
+        right: 0.75rem;
+        font-size: 1.8rem;
+        color: #00a651;
+      }
+
+      &.primary {
+        background: #013179;
+        border-top: none;
+        color: #fff;
+
+        h3, .value, span {
+          color: #fff;
+        }
+
+        .card-icon {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.9rem;
+    margin-bottom: 2rem;
+
+    .incidents-card, .alerts-card {
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #cfd1d6;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+
+      th, td {
+        padding: 0.45rem 0.6rem;
+        border-bottom: 1px solid #eee;
+        text-align: left;
+        font-size: 0.9rem;
+      }
+
+      td.BAIXA { color: #019147; }
+      td.MEDIA { color: #d88a0e; }
+      td.ALTA { color: #c43c2d; }
+    }
+
+    .alerts-card {
+      display: flex;
+      flex-direction: column;
+
+      .alerts-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        color: #555;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}

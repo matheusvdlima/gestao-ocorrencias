@@ -24,5 +24,5 @@ spring:
     default-property-inclusion: NON_NULL
 
 jwt:
-  secret: IncidentManagement
-  expiration: 6000000
+  secret: L9k9M9W9bQXdd6cojXruU2pZTd7rsiAjpCB
+  expiration: 86400000

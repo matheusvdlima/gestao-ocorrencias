@@ -9,8 +9,8 @@ import java.util.Arrays;
 @Getter
 public enum PerfilEnum {
 
-    GESTOR("GESTOR", "Gestor"),
-    USUARIO("USUARIO", "Usuário");
+    ADMIN("ADMIN", "Administrador"),
+    USER("USER", "Usuário");
 
     private final String code;
     private final String label;

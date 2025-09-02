@@ -1,0 +1,18 @@
+<mat-dialog-content class="status-form-content">
+  <form [formGroup]="form" class="form-fields">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status">
+        <mat-option value="ABERTA">Aberta</mat-option>
+        <mat-option value="EM_ANDAMENTO">Em Andamento</mat-option>
+        <mat-option value="RESOLVIDA">Resolvida</mat-option>
+        <mat-option value="CANCELADA">Cancelada</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('status')?.hasError('required')">
+        O status é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>

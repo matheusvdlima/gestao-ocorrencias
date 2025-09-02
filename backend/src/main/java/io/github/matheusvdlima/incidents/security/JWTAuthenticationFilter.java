@@ -1,8 +1,6 @@
 package io.github.matheusvdlima.incidents.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,18 +12,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.github.matheusvdlima.incidents.dto.CredencialDto;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil) {
-        super.setAuthenticationManager(authenticationManager);
+    public JWTAuthenticationFilter(JWTUtil jwtUtil, AuthenticationManager authManager) {
         this.jwtUtil = jwtUtil;
+        setAuthenticationManager(authManager);
     }
 
     @Override
@@ -33,11 +29,11 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             throws AuthenticationException {
         try {
             CredencialDto creds = new ObjectMapper().readValue(request.getInputStream(), CredencialDto.class);
-            UsernamePasswordAuthenticationToken authenticationToken =
-                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha(), new ArrayList<>());
-            return authenticationManager.authenticate(authenticationToken);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            UsernamePasswordAuthenticationToken authToken =
+                    new UsernamePasswordAuthenticationToken(creds.getEmail(), creds.getSenha());
+            return getAuthenticationManager().authenticate(authToken);
+        } catch (IOException e) {
+            throw new RuntimeException("Erro ao ler credenciais", e);
         }
     }
 
@@ -45,33 +41,13 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
-
+                                            Authentication auth) throws IOException {
         String username = ((UserSS) auth.getPrincipal()).getUsername();
         String token = jwtUtil.generateToken(username);
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, enctype, Location");
+
         response.setHeader("Authorization", "Bearer " + token);
-    }
-
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
-
-        response.setStatus(401);
         response.setContentType("application/json");
-        response.getWriter().append(json());
+        response.getWriter().write("{}");
+        response.getWriter().flush();
     }
-
-    private CharSequence json() {
-        long date = new Date().getTime();
-        return "{"
-                + "\"timestamp\": " + date + ", "
-                + "\"status\": 401, "
-                + "\"error\": \"Não autorizado\", "
-                + "\"message\": \"Email ou senha inválidos\", "
-                + "\"path\": \"/login\"}";
-    }
-
 }

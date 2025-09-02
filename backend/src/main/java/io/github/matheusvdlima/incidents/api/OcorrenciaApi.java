@@ -34,7 +34,7 @@ public class OcorrenciaApi {
     private final ComentarioMapper comentarioMapper;
 
     @GetMapping
-    @Operation(summary = "Lista ocorrências com paginação, filtro e ordenação")
+    @Operation(summary = "Lista de ocorrências com paginação, filtro e ordenação")
     public ResponseEntity<PageResponse<OcorrenciaDto>> listar(
             @PageableDefault(page = 0, size = 10, sort = "dataAbertura", direction = Direction.DESC) @ParameterObject
             Pageable pageable,

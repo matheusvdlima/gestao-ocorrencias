@@ -1,0 +1,48 @@
+<div class="estatisticas-container">
+
+  <h1 class="titulo">Dashboard de Estatísticas</h1>
+
+  <div class="cards-grid-status">
+    <mat-card *ngFor="let item of statusValores" class="stat-card">
+      <h3>{{ item.chave }}</h3>
+      <p class="value">{{ item.valor }}</p>
+    </mat-card>
+  </div>
+
+  <div class="cards-grid-prioridade">
+    <mat-card *ngFor="let item of prioridadeValores" class="stat-card">
+      <h3>{{ item.chave }} Prioridade</h3>
+      <p class="value">{{ item.valor }}</p>
+    </mat-card>
+  </div>
+
+  <div class="graficos-grid">
+    <mat-card class="grafico-card">
+      <h3>Status das Ocorrências</h3>
+      <ngx-charts-bar-vertical
+        [results]="chartStatus"
+        [view]="view"
+        [scheme]="colorScheme"
+        [gradient]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showDataLabel]="true"
+        [animations]="true">
+      </ngx-charts-bar-vertical>
+    </mat-card>
+
+    <mat-card class="grafico-card">
+      <h3>Prioridade das Ocorrências</h3>
+      <ngx-charts-pie-chart
+        [results]="chartPrioridade"
+        [view]="view"
+        [scheme]="colorScheme"
+        [legend]="true"
+        [labels]="true"
+        [doughnut]="false"
+        [animations]="true">
+      </ngx-charts-pie-chart>
+    </mat-card>
+  </div>
+</div>

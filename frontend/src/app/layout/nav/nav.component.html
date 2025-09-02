@@ -1,0 +1,55 @@
+<div class="container">
+  <nav class="sidenav">
+    <a routerLink="home" routerLinkActive="active" class="nav-link">
+      <mat-icon>home</mat-icon>
+      <span>Home</span>
+    </a>
+    <a routerLink="ocorrencias" routerLinkActive="active" class="nav-link">
+      <mat-icon>receipt_long</mat-icon>
+      <span>Ocorrências</span>
+    </a>
+    <a routerLink="estatisticas" routerLinkActive="active" class="nav-link">
+      <mat-icon>analytics</mat-icon>
+      <span>Estatísticas</span>
+    </a>
+    <a routerLink="usuarios" routerLinkActive="active" class="nav-link">
+      <mat-icon>person</mat-icon>
+      <span>Usuários</span>
+    </a>
+
+    <div class="sidenav-footer">
+      © 2025 Incident Control Systems.  
+      Todos os direitos reservados.
+    </div>
+  </nav>
+
+  <div class="sidenav-content">
+    <header class="header">
+      <div class="header-left">
+        <img src="/logo.png" alt="Incident Control" class="header-logo">
+        <span class="header-title">INCIDENT CONTROL</span>
+      </div>
+
+      <div class="header-right">
+        <span class="user-name">{{ usuario }}</span>
+        <button mat-icon-button [matMenuTriggerFor]="userMenu">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+      </div>
+      <mat-menu #userMenu="matMenu" class="custom-menu">
+        <button mat-menu-item (click)="alterarSenha()">
+          <mat-icon>key</mat-icon>
+          <span>Alterar senha</span>
+        </button>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Sair</span>
+        </button>
+      </mat-menu>
+    </header>
+
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

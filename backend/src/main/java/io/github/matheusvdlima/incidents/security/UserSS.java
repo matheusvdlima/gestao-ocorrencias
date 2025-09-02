@@ -16,7 +16,7 @@ public record UserSS(
 ) implements UserDetails {
 
     public UserSS(UUID id, String email, String senha, String perfil) {
-        this(id, email, senha, List.of(new SimpleGrantedAuthority(perfil)));
+        this(id, email, senha, List.of(new SimpleGrantedAuthority("ROLE_" + perfil)));
     }
 
     @Override

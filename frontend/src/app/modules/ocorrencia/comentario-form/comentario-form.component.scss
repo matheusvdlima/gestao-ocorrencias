@@ -1,0 +1,41 @@
+.comentario-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5px;
+  margin-bottom: 1rem;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.comentarios-tabela {
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+
+  table {
+    width: 100%;
+
+    th,
+    td {
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: #ebebeb;
+      font-weight: 600;
+    }
+
+    td {
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    button {
+      min-width: 36px;
+      height: 36px;
+      color: rgb(165, 0, 0)
+    }
+  }
+}

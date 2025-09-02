@@ -1,6 +1,7 @@
 package io.github.matheusvdlima.incidents.api;
 
 import io.github.matheusvdlima.incidents.dto.DominioDto;
+import io.github.matheusvdlima.incidents.enums.PerfilEnum;
 import io.github.matheusvdlima.incidents.enums.PrioridadeEnum;
 import io.github.matheusvdlima.incidents.enums.StatusEnum;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,6 +30,14 @@ public class DominioApi {
     @GetMapping("/prioridades")
     public List<DominioDto> listarPrioridades() {
         return Arrays.stream(PrioridadeEnum.values())
+                .map(p -> new DominioDto(p.getCode(), p.getLabel()))
+                .toList();
+    }
+
+    @Operation(summary = "Lista todos os perfis")
+    @GetMapping("/perfis")
+    public List<DominioDto> listarPerfis() {
+        return Arrays.stream(PerfilEnum.values())
                 .map(p -> new DominioDto(p.getCode(), p.getLabel()))
                 .toList();
     }

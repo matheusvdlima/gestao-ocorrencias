@@ -1,0 +1,16 @@
+<mat-dialog-content class="perfil-form-content">
+  <form [formGroup]="form" class="form-fields">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Perfil</mat-label>
+      <mat-select formControlName="perfis">
+        <mat-option value="ADMIN">ADMIN</mat-option>
+        <mat-option value="USER">USUÁRIO</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('perfis')?.hasError('required')">
+        O perfil é obrigatório
+      </mat-error>
+    </mat-form-field>
+
+  </form>
+</mat-dialog-content>
