@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { DialogService } from '../../layout/dialog/dialog.service';
 import { PerfilFormComponent } from './perfil-form/perfil-form.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Dominio } from '../../models/dominio';
+import { DominioService } from '../../services/dominio.service';
 
 @Component({
   selector: 'app-usuario',
@@ -25,10 +27,11 @@ export class UsuarioComponent implements OnInit {
   filtroTexto = '';
   filtroPerfil = '';
 
-  perfis: string[] = ['ADMIN', 'USUARIO'];
+  perfisList: Dominio[] = [];
 
   constructor(
     private usuarioService: UsuarioService,
+    private dominioService: DominioService,
     private toastrService: ToastrService,
     private dialogService: DialogService,
     private activatedRoute: ActivatedRoute,
@@ -36,6 +39,8 @@ export class UsuarioComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dominioService.buscarPerfis().subscribe(data => this.perfisList = data);
+
     this.activatedRoute.queryParamMap.subscribe(params => {
       this.pageIndex = +params.get('page')! || 0;
       this.pageSize = +params.get('size')! || 10;
@@ -111,7 +116,10 @@ export class UsuarioComponent implements OnInit {
   cadastrarUsuario(): void {
     this.dialogService.openForm({
       formComponent: UsuarioFormComponent,
-      title: 'CADASTRAR USUÁRIO'
+      title: 'CADASTRAR USUÁRIO',
+      resources: {
+        perfisList: this.perfisList
+      }
     }).subscribe((result: any) => {
       if (result) {
         this.usuarioService.criar({ ...result, senha: 123456 }).subscribe({
@@ -147,7 +155,10 @@ export class UsuarioComponent implements OnInit {
     this.dialogService.openForm({
       formComponent: PerfilFormComponent,
       title: 'ALTERAR PERFIL',
-      value: usuario
+      value: usuario,
+      resources: {
+        perfisList: this.perfisList
+      }
     }).subscribe((result: any) => {
       if (result?.perfil && result.perfil !== usuario.perfil) {
         this.usuarioService.atualizarPerfil(usuario.id!, result.perfil).subscribe({

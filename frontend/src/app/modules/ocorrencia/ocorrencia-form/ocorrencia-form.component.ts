@@ -4,9 +4,11 @@ import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Ocorrencia } from '../../../models/ocorrencia';
+import { Dominio } from '../../../models/dominio';
 
 type DialogData = {
   value: Ocorrencia;
+  resources?: any;
   readonly?: boolean;
 };
 
@@ -19,6 +21,10 @@ type DialogData = {
 export class OcorrenciaFormComponent {
   form: FormGroup;
   isEdit!: boolean;
+  isView!: boolean;
+
+  statusList: Dominio[];
+  prioridadesList: Dominio[];
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
@@ -27,12 +33,16 @@ export class OcorrenciaFormComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData
   ) {
     this.isEdit = !!data?.value && !data?.readonly;
+    this.isView = !!data.readonly;
+
+    this.statusList = data.resources?.statusList ?? [];
+    this.prioridadesList = data.resources?.prioridadesList ?? [];
 
     this.form = this.fb.group({
       titulo: [data.value?.titulo ?? '', [Validators.required, Validators.maxLength(120)]],
       descricao: [data.value?.descricao ?? '', [Validators.required, Validators.maxLength(500)]],
-      status: [data.value?.status?.code ?? 'ABERTA', Validators.required],
-      prioridade: [data.value?.prioridade?.code ?? 'MEDIA', Validators.required],
+      status: [data.value?.status?.code ?? '', Validators.required],
+      prioridade: [data.value?.prioridade?.code ?? '', Validators.required],
       dataCriacao: [data.value?.dataAbertura ?? new Date(), Validators.required],
       emailResponsavel: [data.value?.emailResponsavel ?? '', [Validators.required, Validators.email]],
       tags: this.fb.array(data.value?.tags?.map((t: string) => this.fb.control(t)) ?? [])

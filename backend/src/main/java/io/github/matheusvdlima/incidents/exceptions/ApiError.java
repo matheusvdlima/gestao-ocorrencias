@@ -5,8 +5,11 @@ import lombok.*;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-@Getter @Setter @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Schema(name = "ApiError", description = "Envelope padrão de erros da API")
 public class ApiError {
 

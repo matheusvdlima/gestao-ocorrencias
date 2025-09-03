@@ -8,8 +8,6 @@ import io.github.matheusvdlima.incidents.enums.StatusEnum;
 import io.github.matheusvdlima.incidents.repository.OcorrenciaRepository;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

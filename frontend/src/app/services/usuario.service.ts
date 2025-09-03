@@ -6,12 +6,6 @@ import { environment } from '../../environments/environment';
 import { RespostaPaginada } from '../models/resposta-paginada';
 import { UsuarioParametro } from '../models/usuario';
 
-const httpOptions = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-  }
-};
-
 const API = `${environment.baseUrl}/users`;
 
 @Injectable({
@@ -36,34 +30,34 @@ export class UsuarioService {
       params = params.set('sort', filtro.sort);
     }
 
-    return this.http.get<RespostaPaginada<Usuario>>(API, { ...httpOptions, params });
+    return this.http.get<RespostaPaginada<Usuario>>(API, { params });
   }
 
   buscarPorId(id: string): Observable<Usuario> {
-    return this.http.get<Usuario>(`${API}/${id}`, httpOptions);
+    return this.http.get<Usuario>(`${API}/${id}`);
   }
 
   buscarPorEmail(email: string): Observable<Usuario> {
-    return this.http.get<Usuario>(`${API}/email/${email}`, httpOptions);
+    return this.http.get<Usuario>(`${API}/email/${email}`);
   }
 
   criar(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(API, usuario, httpOptions);
+    return this.http.post<Usuario>(API, usuario);
   }
 
   atualizar(usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(`${API}/${usuario.id}`, usuario, httpOptions);
+    return this.http.put<Usuario>(`${API}/${usuario.id}`, usuario);
   }
 
   atualizarPerfil(id: string, perfil: string): Observable<Usuario> {
-    return this.http.patch<Usuario>(`${API}/${id}/perfil`, perfil, httpOptions);
+    return this.http.patch<Usuario>(`${API}/${id}/perfil`, perfil);
   }
 
   atualizarSenha(id: string, senha: string): Observable<Usuario> {
-    return this.http.patch<Usuario>(`${API}/${id}/senha`, senha, httpOptions);
+    return this.http.patch<Usuario>(`${API}/${id}/senha`, senha);
   }
 
   deletar(id: string): Observable<Usuario> {
-    return this.http.delete<Usuario>(`${API}/${id}`, httpOptions);
+    return this.http.delete<Usuario>(`${API}/${id}`);
   }
 }

@@ -17,6 +17,7 @@ export class NavComponent implements OnInit {
 
   usuario!: string;
   perfil!: string;
+  role!: string;
 
   constructor(
     private router: Router,
@@ -35,9 +36,10 @@ export class NavComponent implements OnInit {
       next: (res: Usuario) => {
         this.usuario = res.nome;
         this.perfil = res.perfil.code;
+        this.role = res.perfil.label;
       },
       error: (err) => {
-        console.error('Erro ao buscar usuário:', err);
+        this.toastrService.error('Erro ao buscar usuário:', err);
       }
     });
   }

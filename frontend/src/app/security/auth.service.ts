@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { UsuarioService } from '../services/usuario.service';
 import { Usuario } from '../models/usuario';
+import { ToastrService } from 'ngx-toastr';
 
 const API = environment.baseUrl;
 
@@ -21,21 +22,16 @@ export interface UserToken {
   providedIn: 'root'
 })
 export class AuthService {
-  name!: string;
-
   private jwtService: JwtHelperService = new JwtHelperService();
 
   loggedIn$ = new BehaviorSubject<boolean>(this.isAuthenticated());
+  currentUser$ = new BehaviorSubject<Usuario | null>(null);
 
-  constructor(private http: HttpClient, private usuarioService: UsuarioService) {
-    this.usuarioService.buscarPorEmail(this.getUserName()).subscribe({
-      next: (res: Usuario) => {
-        this.name = res.nome;
-      },
-      error: (err) => {
-        console.error('Erro ao buscar usuário:', err);
-      }
-    });
+  constructor(
+    private http: HttpClient,
+    private usuarioService: UsuarioService,
+    private toastrService: ToastrService
+  ) {
   }
 
   authenticate(creds: Credencial) {
@@ -45,8 +41,17 @@ export class AuthService {
   }
 
   successfulLogin(authToken: string) {
-    localStorage.setItem('token', authToken);
+    localStorage.setItem('token', authToken.replace(/^Bearer\s+/i, ''));
     this.loggedIn$.next(true);
+
+    this.usuarioService.buscarPorEmail(this.getUserName()).subscribe({
+      next: (res: Usuario) => {
+        this.currentUser$.next(res);
+      },
+      error: () => {
+        this.toastrService.error('Erro ao buscar usuário');
+      }
+    });
   }
 
   isAuthenticated(): boolean {
@@ -57,6 +62,7 @@ export class AuthService {
   logout() {
     localStorage.clear();
     this.loggedIn$.next(false);
+    this.currentUser$.next(null);
   }
 
   getToken(): string | null {

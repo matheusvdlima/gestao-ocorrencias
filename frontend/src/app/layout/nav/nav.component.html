@@ -18,7 +18,7 @@
     </a>
 
     <div class="sidenav-footer">
-      © 2025 Incident Control Systems.  
+      © 2025 Incident Control Systems.
       Todos os direitos reservados.
     </div>
   </nav>
@@ -31,7 +31,10 @@
       </div>
 
       <div class="header-right">
-        <span class="user-name">{{ usuario }}</span>
+        <div class="user-info">
+          <span class="user-name">{{ usuario }}</span>
+          <span class="user-role">{{ role }}</span>
+        </div>
         <button mat-icon-button [matMenuTriggerFor]="userMenu">
           <mat-icon>account_circle</mat-icon>
         </button>

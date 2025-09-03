@@ -11,6 +11,7 @@ import { OcorrenciaFormComponent } from './ocorrencia-form/ocorrencia-form.compo
 import { StatusFormComponent } from './status-form/status-form.component';
 import { ComentarioFormComponent } from './comentario-form/comentario-form.component';
 import { Comentario } from '../../models/comentario';
+import { Dominio } from '../../models/dominio';
 
 @Component({
   selector: 'app-ocorrencia',
@@ -29,8 +30,8 @@ export class OcorrenciaComponent implements OnInit {
   filtroStatus = '';
   filtroPrioridade = '';
 
-  statusList: any[] = [];
-  prioridadesList: any[] = [];
+  statusList: Dominio[] = [];
+  prioridadesList: Dominio[] = [];
 
   constructor(
     private ocorrenciaService: OcorrenciaService,
@@ -115,7 +116,11 @@ export class OcorrenciaComponent implements OnInit {
   cadastrarOcorrencia(): void {
     this.dialogService.openForm({
       formComponent: OcorrenciaFormComponent,
-      title: 'CADASTRAR OCORRÊNCIA'
+      title: 'CADASTRAR OCORRÊNCIA',
+      resources: {
+        statusList: this.statusList,
+        prioridadesList: this.prioridadesList
+      }
     }).subscribe((result: any) => {
       if (result) {
         this.ocorrenciaService.criarOcorrencia(result).subscribe({
@@ -134,6 +139,10 @@ export class OcorrenciaComponent implements OnInit {
       formComponent: OcorrenciaFormComponent,
       title: 'VISUALIZAR OCORRÊNCIA',
       value: ocorrencia,
+      resources: {
+        statusList: this.statusList,
+        prioridadesList: this.prioridadesList
+      },
       readonly: true
     });
   }
@@ -142,7 +151,11 @@ export class OcorrenciaComponent implements OnInit {
     this.dialogService.openForm({
       formComponent: OcorrenciaFormComponent,
       title: 'EDITAR OCORRÊNCIA',
-      value: ocorrencia
+      value: ocorrencia,
+      resources: {
+        statusList: this.statusList,
+        prioridadesList: this.prioridadesList
+      }
     }).subscribe((result: any) => {
       if (result) {
         this.ocorrenciaService.atualizarOcorrencia({ ...ocorrencia, ...result }).subscribe({
@@ -175,7 +188,10 @@ export class OcorrenciaComponent implements OnInit {
     this.dialogService.openForm({
       formComponent: StatusFormComponent,
       title: 'ALTERAR STATUS',
-      value: ocorrencia
+      value: ocorrencia,
+      resources: {
+        statusList: this.statusList
+      }
     }).subscribe((result: any) => {
       if (result?.status && result.status !== ocorrencia.status) {
         this.ocorrenciaService.atualizarStatus(ocorrencia.id!, result.status).subscribe({

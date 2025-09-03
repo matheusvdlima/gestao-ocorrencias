@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Usuario } from '../../../models/usuario';
+import { Dominio } from '../../../models/dominio';
 
 @Component({
   selector: 'app-usuario-form',
@@ -13,12 +14,16 @@ export class UsuarioFormComponent {
   form: FormGroup;
   hidePassword = true;
   isEdit!: boolean;
+  
+  perfisList: Dominio[];
 
   constructor(
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: { value: Usuario }
+    @Inject(MAT_DIALOG_DATA) public data: { value: Usuario, resources: any }
   ) {
     this.isEdit = !!data.value;
+
+    this.perfisList = data.resources?.perfisList ?? [];
 
     this.form = this.fb.group(
       {

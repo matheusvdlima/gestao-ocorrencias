@@ -14,6 +14,7 @@ export class DialogService {
     formComponent: Type<T>;
     title: string;
     value?: any;
+    resources?: any;
     readonly?: boolean;
   }) {
     const dialogRef = this.dialog.open(DialogFormComponent, {
@@ -22,6 +23,7 @@ export class DialogService {
         formComponent: config.formComponent,
         title: config.title,
         value: config.value,
+        resources: config.resources,
         readonly: config.readonly
       } as DialogFormData
     });

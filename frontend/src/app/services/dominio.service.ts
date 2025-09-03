@@ -4,12 +4,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Dominio } from '../models/dominio';
 
-const httpOptions = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-  }
-};
-
 const API = `${environment.baseUrl}/dominios`;
 
 @Injectable({
@@ -20,14 +14,14 @@ export class DominioService {
   constructor(private http: HttpClient) { }
 
   buscarStatus(): Observable<Dominio[]> {
-    return this.http.get<Dominio[]>(`${API}/status`, httpOptions);
+    return this.http.get<Dominio[]>(`${API}/status`);
   }
 
   buscarPrioridades(): Observable<Dominio[]> {
-    return this.http.get<Dominio[]>(`${API}/prioridades`, httpOptions);
+    return this.http.get<Dominio[]>(`${API}/prioridades`);
   }
 
   buscarPerfis(): Observable<Dominio[]> {
-    return this.http.get<Dominio[]>(`${API}/perfis`, httpOptions);
+    return this.http.get<Dominio[]>(`${API}/perfis`);
   }
 }

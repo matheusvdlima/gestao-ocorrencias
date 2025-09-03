@@ -1,44 +1,30 @@
 package io.github.matheusvdlima.incidents;
 
-import io.swagger.v3.core.converter.AnnotatedType;
-import io.swagger.v3.core.converter.ModelConverters;
+import io.swagger.v3.oas.models.*;
+import io.swagger.v3.oas.models.info.*;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.responses.*;
+import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.media.Content;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Configuration
 public class IncidentsOpenApiConfig {
 
     @Bean
-    public OpenAPI openAPI() {
-        Components components = new Components();
-
-        // Security scheme: JWT Bearer
-        components.addSecuritySchemes("bearerAuth",
-                new SecurityScheme()
-                        .type(SecurityScheme.Type.HTTP)
-                        .scheme("bearer")
-                        .bearerFormat("JWT"));
-
-        // Garante que ApiError e dependências apareçam no components/schemas
-        var resolved = ModelConverters.getInstance()
-                .resolveAsResolvedSchema(new AnnotatedType(io.github.matheusvdlima.incidents.exceptions.ApiError.class));
-        components.addSchemas("ApiError", resolved.schema);
-        if (resolved.referencedSchemas != null) {
-            resolved.referencedSchemas.forEach(components::addSchemas);
-        }
+    public OpenAPI apiInfo() {
+        Components components = new Components()
+                .addSchemas("ApiError", buildApiErrorSchema())
+                .addSecuritySchemes("bearerAuth",
+                        new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")
+                                .in(SecurityScheme.In.HEADER)
+                                .name("Authorization")
+                                .description("Use um token JWT no formato: **Bearer &lt;token&gt;**"));
 
         return new OpenAPI()
                 .info(new Info()
@@ -46,29 +32,71 @@ public class IncidentsOpenApiConfig {
                         .description("Aplicação para gerenciamento de incidentes")
                         .version("v1"))
                 .components(components)
-                // Global: tudo pede bearer token (remova em métodos públicos com @Operation(security = {}))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"));
+    }
+
+    private Schema<?> buildApiErrorSchema() {
+        ObjectSchema root = new ObjectSchema();
+        root.addProperty("timestamp", new StringSchema().format("date-time"));
+        root.addProperty("status", new IntegerSchema().format("int32"));
+        root.addProperty("error", new StringSchema());
+        root.addProperty("code", new StringSchema());
+        root.addProperty("message", new StringSchema());
+        root.addProperty("path", new StringSchema());
+
+        ObjectSchema fieldErr = new ObjectSchema();
+        fieldErr.addProperty("field", new StringSchema());
+        fieldErr.addProperty("message", new StringSchema());
+
+        ArraySchema fieldErrors = new ArraySchema().items(fieldErr);
+        root.addProperty("fieldErrors", fieldErrors);
+        root.description("Formato padrão de erro da API");
+        return root;
     }
 
     @Bean
     public OpenApiCustomizer globalErrorResponsesCustomizer() {
         return openApi -> {
-            Content errorJson = new Content()
-                    .addMediaType("application/json",
-                            new MediaType().schema(new Schema<>().$ref("#/components/schemas/ApiError")));
+            Components comps = openApi.getComponents();
+            if (comps == null) {
+                comps = new Components();
+                openApi.setComponents(comps);
+            }
+            if (comps.getSchemas() == null || !comps.getSchemas().containsKey("ApiError")) {
+                comps.addSchemas("ApiError", buildApiErrorSchema());
+            }
 
-            Map<String, ApiResponse> commons = new LinkedHashMap<>();
-            commons.put("400", new ApiResponse().description("Bad Request").content(errorJson));
-            commons.put("401", new ApiResponse().description("Unauthorized").content(errorJson));
-            commons.put("403", new ApiResponse().description("Forbidden").content(errorJson));
-            commons.put("404", new ApiResponse().description("Not Found").content(errorJson));
-            commons.put("409", new ApiResponse().description("Conflict").content(errorJson));
-            commons.put("422", new ApiResponse().description("Unprocessable Entity").content(errorJson));
-            commons.put("500", new ApiResponse().description("Internal Server Error").content(errorJson));
+            Content apiErrorContent = new Content().addMediaType(
+                    "application/json",
+                    new MediaType().schema(new Schema<>().$ref("#/components/schemas/ApiError"))
+            );
 
-            openApi.getPaths().values().forEach(pathItem ->
-                    pathItem.readOperations().forEach(op ->
-                            commons.forEach(op.getResponses()::addApiResponse)));
+            comps.addResponses("BadRequest", new ApiResponse().description("Bad Request").content(apiErrorContent));
+            comps.addResponses("Unauthorized", new ApiResponse().description("Unauthorized").content(apiErrorContent));
+            comps.addResponses("Forbidden", new ApiResponse().description("Forbidden").content(apiErrorContent));
+            comps.addResponses("NotFound", new ApiResponse().description("Not Found").content(apiErrorContent));
+            comps.addResponses("Conflict", new ApiResponse().description("Conflict").content(apiErrorContent));
+            comps.addResponses("UnprocessableEntity", new ApiResponse().description("Unprocessable Entity").content(apiErrorContent));
+            comps.addResponses("InternalServerError", new ApiResponse().description("Internal Server Error").content(apiErrorContent));
+
+            if (openApi.getPaths() != null) {
+                openApi.getPaths().values().forEach(pathItem ->
+                        pathItem.readOperations().forEach(op -> {
+                            ApiResponses r = op.getResponses();
+                            if (r == null) {
+                                r = new ApiResponses();
+                                op.setResponses(r);
+                            }
+                            r.addApiResponse("400", new ApiResponse().$ref("#/components/responses/BadRequest"));
+                            r.addApiResponse("401", new ApiResponse().$ref("#/components/responses/Unauthorized"));
+                            r.addApiResponse("403", new ApiResponse().$ref("#/components/responses/Forbidden"));
+                            r.addApiResponse("404", new ApiResponse().$ref("#/components/responses/NotFound"));
+                            r.addApiResponse("409", new ApiResponse().$ref("#/components/responses/Conflict"));
+                            r.addApiResponse("422", new ApiResponse().$ref("#/components/responses/UnprocessableEntity"));
+                            r.addApiResponse("500", new ApiResponse().$ref("#/components/responses/InternalServerError"));
+                        })
+                );
+            }
         };
     }
 }

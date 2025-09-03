@@ -1,4 +1,3 @@
-# build
 FROM maven:3.9-eclipse-temurin-21 AS build
 WORKDIR /app
 COPY pom.xml .
@@ -6,11 +5,9 @@ RUN mvn -q -e -DskipTests dependency:go-offline
 COPY . .
 RUN mvn -q -DskipTests package
 
-# run
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
-# ⬅️ necessário para o healthcheck do compose
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 

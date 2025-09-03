@@ -6,7 +6,7 @@
       <mat-label>Perfil</mat-label>
       <mat-select [(value)]="filtroPerfil" (selectionChange)="aplicarFiltros()">
         <mat-option value="">Todos</mat-option>
-        <mat-option *ngFor="let perfil of perfis" [value]="perfil">{{ perfil }}</mat-option>
+        <mat-option *ngFor="let perfil of perfisList" [value]="perfil">{{ perfil }}</mat-option>
       </mat-select>
     </mat-form-field>
 

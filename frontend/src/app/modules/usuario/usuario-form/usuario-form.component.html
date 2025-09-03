@@ -29,8 +29,7 @@
     <mat-form-field appearance="outline" *ngIf="!isEdit">
       <mat-label>Perfil</mat-label>
       <mat-select formControlName="perfil">
-        <mat-option value="ADMIN">Administrador</mat-option>
-        <mat-option value="USER">Usuário</mat-option>
+        <mat-option *ngFor="let s of perfisList" [value]="s.code">{{ s.label }}</mat-option>
       </mat-select>
       <mat-error *ngIf="form.get('perfil')?.hasError('required')">
         O perfil é obrigatório

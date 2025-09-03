@@ -6,8 +6,6 @@ import io.github.matheusvdlima.incidents.entity.Ocorrencia;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.List;
-
 @Mapper(componentModel = "spring", uses = ComentarioMapper.class)
 public interface OcorrenciaMapper {
 

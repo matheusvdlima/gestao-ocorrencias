@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Credencial } from '../../models/credencial';
 import { AuthService } from '../../security/auth.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -39,18 +40,25 @@ export class LoginComponent implements OnInit {
     const creds: Credencial = this.loginForm.value;
 
     this.service.authenticate(creds).subscribe({
-      next: (resposta) => {
-        const token = resposta.headers.get('Authorization')?.substring(7) ?? '';
+      next: (resposta: HttpResponse<any>) => {
+        const authHeader = (resposta.headers.get('Authorization') ?? '').trim();
+        const headerToken = authHeader.replace(/^Bearer\s+/i, '').trim();
+
+        const body: any = resposta.body ?? {};
+        const bodyToken = (body.token ?? body.access_token ?? '').toString().trim();
+
+        const token = headerToken || bodyToken;
+
         if (token) {
           this.service.successfulLogin(token);
 
-          Promise.resolve().then(() => this.router.navigate(['']));
+          this.router.navigateByUrl('/', { replaceUrl: true });
         } else {
           this.toast.error('Erro ao obter token de autenticação');
         }
       },
-      error: () => {
-        this.toast.error('Usuário e/ou senha inválidos');
+      error: (err) => {
+        this.toast.error(err?.error?.message || 'Usuário e/ou senha inválidos');
       }
     });
 

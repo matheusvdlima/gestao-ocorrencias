@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -98,7 +98,7 @@ import { ComentarioFormComponent } from './modules/ocorrencia/comentario-form/co
   ],
   providers: [
     AuthInterceptorProvider,
-    provideHttpClient(),
+    provideHttpClient(withInterceptorsFromDi()),
     provideEnvironmentNgxMask(),
     { provide: MatPaginatorIntl, useClass: MatPaginatorBrService}
   ],

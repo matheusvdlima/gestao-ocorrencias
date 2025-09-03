@@ -4,7 +4,7 @@
   <ng-template #formContainer></ng-template>
 </mat-dialog-content>
 
-<mat-dialog-actions>
+<mat-dialog-actions *ngIf="!data.readonly">
   <button mat-raised-button class="save-button" (click)="salvar()" [disabled]="isSaveDisabled()">
     Salvar
   </button>

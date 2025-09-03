@@ -89,6 +89,18 @@
         font-weight: 500;
         padding: 3rem;
 
+        .user-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+
+          .user-role {
+            font-size: 0.7rem;
+            color: #666;
+            margin-top: -2px;
+          }
+        }
+
         button mat-icon {
           color: #0a4297 !important;
         }

@@ -3,6 +3,8 @@ import { Estatistica } from '../../models/estatistica';
 import { EstatisticaService } from '../../services/estatistica.service';
 import { ToastrService } from 'ngx-toastr';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
+import { DominioService } from '../../services/dominio.service';
+import { Dominio } from '../../models/dominio';
 
 @Component({
   selector: 'app-estatisticas',
@@ -29,8 +31,12 @@ export class EstatisticasComponent implements OnInit {
 
   view: [number, number] = [500, 300];
 
+  statusList: Dominio[] = [];
+  prioridadesList: Dominio[] = [];
+
   constructor(
     private estatisticaService: EstatisticaService,
+    private dominioService: DominioService,
     private toastrService: ToastrService
   ) { }
 
@@ -39,22 +45,22 @@ export class EstatisticasComponent implements OnInit {
   }
 
   private carregarEstatisticas(): void {
+    this.dominioService.buscarStatus().subscribe(data => this.statusList = data);
+    this.dominioService.buscarPrioridades().subscribe(data => this.prioridadesList = data);
+
     this.estatisticaService.buscarEstatisticas().subscribe({
       next: (e) => {
         this.estatistica = e;
 
-        this.statusValores = [
-          { chave: 'ABERTA', valor: this.buscarValor(e.status, 'ABERTA') },
-          { chave: 'EM_ANDAMENTO', valor: this.buscarValor(e.status, 'EM_ANDAMENTO') },
-          { chave: 'RESOLVIDA', valor: this.buscarValor(e.status, 'RESOLVIDA') },
-          { chave: 'CANCELADA', valor: this.buscarValor(e.status, 'CANCELADA') },
-        ];
+        this.statusValores = this.statusList.map(d => ({
+          chave: d.label,
+          valor: this.buscarValor(e.status, d.code)
+        }));
 
-        this.prioridadeValores = [
-          { chave: 'ALTA', valor: this.buscarValor(e.prioridade, 'ALTA') },
-          { chave: 'MEDIA', valor: this.buscarValor(e.prioridade, 'MEDIA') },
-          { chave: 'BAIXA', valor: this.buscarValor(e.prioridade, 'BAIXA') },
-        ];
+        this.prioridadeValores = this.prioridadesList.map(d => ({
+          chave: d.label,
+          valor: this.buscarValor(e.prioridade, d.code)
+        }));
 
         this.chartStatus = this.statusValores.map(s => ({ name: s.chave, value: s.valor }));
         this.chartPrioridade = this.prioridadeValores.map(p => ({ name: p.chave, value: p.valor }));

@@ -5,6 +5,7 @@ export interface DialogFormData {
   formComponent: Type<any>;
   title: string;
   value?: any;
+  resources?: any;
   readonly?: boolean;
 }
 
@@ -23,7 +24,7 @@ export class DialogFormComponent implements OnInit {
   constructor(
     private dialogRef: MatDialogRef<DialogFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogFormData
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.formContainer.clear();
@@ -31,6 +32,10 @@ export class DialogFormComponent implements OnInit {
 
     if (this.data.value) {
       Object.assign(this.formInstance.instance, { data: this.data.value });
+    }
+
+    if (this.data.resources) {
+      Object.assign(this.formInstance.instance, { resources: this.data.resources });
     }
 
     if (this.data.readonly && this.formInstance.instance.setFormReadOnly) {

@@ -50,7 +50,7 @@ export class HomeComponent implements OnInit {
         this.usuario = res.nome;
       },
       error: (err) => {
-        console.error('Erro ao buscar usuário:', err);
+        this.toastrService.error('Erro ao buscar usuário:', err);
       }
     });
   }

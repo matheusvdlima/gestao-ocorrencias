@@ -3,8 +3,11 @@ package io.github.matheusvdlima.incidents.exceptions;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-@Getter @Setter @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ApiErrorDetail {
     @Schema(example = "titulo")
     private String field;

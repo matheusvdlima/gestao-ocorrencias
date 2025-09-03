@@ -7,12 +7,6 @@ import { Comentario } from '../models/comentario';
 import { RespostaPaginada } from '../models/resposta-paginada';
 import { OcorrenciaParametro } from '../models/ocorrencia';
 
-const httpOptions = {
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`
-  }
-};
-
 const API = `${environment.baseUrl}/incidents`;
 
 @Injectable({
@@ -40,34 +34,34 @@ export class OcorrenciaService {
       params = params.set('sort', filtro.sort);
     }
 
-    return this.http.get<RespostaPaginada<Ocorrencia>>(API, { ...httpOptions, params });
+    return this.http.get<RespostaPaginada<Ocorrencia>>(API, { params });
   }
 
   buscarOcorrenciaId(id: string): Observable<Ocorrencia> {
-    return this.http.get<Ocorrencia>(`${API}/${id}`, httpOptions);
+    return this.http.get<Ocorrencia>(`${API}/${id}`);
   }
 
   criarOcorrencia(ocorrencia: Ocorrencia): Observable<Ocorrencia> {
-    return this.http.post<Ocorrencia>(API, ocorrencia, httpOptions);
+    return this.http.post<Ocorrencia>(API, ocorrencia);
   }
 
   atualizarOcorrencia(ocorrencia: Ocorrencia): Observable<Ocorrencia> {
-    return this.http.put<Ocorrencia>(`${API}/${ocorrencia.id}`, ocorrencia, httpOptions);
+    return this.http.put<Ocorrencia>(`${API}/${ocorrencia.id}`, ocorrencia);
   }
 
   atualizarStatus(id: string, status: string): Observable<Ocorrencia> {
-    return this.http.patch<Ocorrencia>(`${API}/${id}/status`, {status}, httpOptions);
+    return this.http.patch<Ocorrencia>(`${API}/${id}/status`, {status});
   }
 
   deletarOcorrencia(id: string): Observable<Ocorrencia> {
-    return this.http.delete<Ocorrencia>(`${API}/${id}`, httpOptions);
+    return this.http.delete<Ocorrencia>(`${API}/${id}`);
   }
 
   listarComentariosOcorrencia(id: string): Observable<Comentario[]> {
-    return this.http.get<Comentario[]>(`${API}/${id}/comments`, httpOptions);
+    return this.http.get<Comentario[]>(`${API}/${id}/comments`);
   }
 
   criarComentariosOcorrencia(id: string, comentario: Comentario[]): Observable<Comentario[]> {
-    return this.http.post<Comentario[]>(`${API}/${id}/comments`, [comentario], httpOptions);
+    return this.http.post<Comentario[]>(`${API}/${id}/comments`, [comentario]);
   }
 }
