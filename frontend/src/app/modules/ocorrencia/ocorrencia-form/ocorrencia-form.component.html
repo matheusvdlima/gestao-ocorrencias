@@ -2,21 +2,21 @@
   <form [formGroup]="form" class="form-fields">
     <mat-form-field appearance="outline">
       <mat-label>Título</mat-label>
-      <input matInput formControlName="titulo" [readonly]="data?.readonly" />
+      <input matInput formControlName="titulo" [readonly]="data.readonly" />
       <mat-error *ngIf="form.get('titulo')?.hasError('required')">O título é obrigatório</mat-error>
       <mat-error *ngIf="form.get('titulo')?.hasError('maxlength')">O título deve ter no máximo 120 caracteres</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Descrição</mat-label>
-      <textarea matInput rows="4" formControlName="descricao" [readonly]="data?.readonly"></textarea>
+      <textarea matInput rows="4" formControlName="descricao" [readonly]="data.readonly"></textarea>
       <mat-error *ngIf="form.get('descricao')?.hasError('required')">A descrição é obrigatória</mat-error>
       <mat-error *ngIf="form.get('descricao')?.hasError('maxlength')">A descrição deve ter no máximo 500 caracteres</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Status</mat-label>
-      <mat-select formControlName="status" [disabled]="data?.readonly!">
+      <mat-select formControlName="status" [disabled]="data.readonly!">
         <mat-option value="ABERTA">Aberta</mat-option>
         <mat-option value="EM_ANDAMENTO">Em andamento</mat-option>
         <mat-option value="RESOLVIDA">Resolvida</mat-option>
@@ -27,7 +27,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Prioridade</mat-label>
-      <mat-select formControlName="prioridade" [disabled]="data?.readonly!">
+      <mat-select formControlName="prioridade" [disabled]="data.readonly!">
         <mat-option value="BAIXA">Baixa</mat-option>
         <mat-option value="MEDIA">Média</mat-option>
         <mat-option value="ALTA">Alta</mat-option>
@@ -37,17 +37,17 @@
 
     <mat-form-field appearance="outline">
       <mat-label>E-mail do Responsável</mat-label>
-      <input matInput formControlName="emailResponsavel" [readonly]="data?.readonly" />
+      <input matInput formControlName="emailResponsavel" [readonly]="data.readonly" />
       <mat-error *ngIf="form.get('emailResponsavel')?.hasError('required')">O e-mail do responsável é obrigatório</mat-error>
       <mat-error *ngIf="form.get('emailResponsavel')?.hasError('email')">E-mail inválido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Tags</mat-label>
-      <mat-chip-grid #chipList [disabled]="data?.readonly">
+      <mat-chip-grid #chipList [disabled]="data.readonly">
         <mat-chip-row
           *ngFor="let tag of form.get('tags')?.value; let i = index"
-          [removable]="!data?.readonly"
+          [removable]="!data.readonly"
           (removed)="removeTag(i)">
           {{ tag }}
           <button *ngIf="!data?.readonly" matChipRemove>

@@ -6,7 +6,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker)](https://www.docker.com/)
 
-Sistema fullstack para gestão de ocorrências, com **Spring Boot + Angular + PostgreSQL**, rodando em containers via **Docker Compose**.
+Sistema fullstack para gestão de ocorrências, com **Spring Boot + Angular + PostgreSQL**, rodando em containers via **Docker Compose** ou diretamente no ambiente local.
 
 ---
 
@@ -20,11 +20,13 @@ Sistema fullstack para gestão de ocorrências, com **Spring Boot + Angular + Po
 
 ## ⚙️ Como Rodar
 
-### Pré-requisitos
+### 🔹 Opção 1: Com Docker (recomendado)
+
+#### Pré-requisitos
 - [Docker](https://docs.docker.com/get-docker/)  
 - [Docker Compose](https://docs.docker.com/compose/)  
 
-### Passos
+#### Passos
 ```bash
 # clonar repositório
 git clone https://github.com/seu-usuario/gestao-ocorrencias.git
@@ -32,25 +34,45 @@ cd gestao-ocorrencias
 
 # subir os containers
 docker compose up -d --build
-
 ```
 
-#### 🌐 Endpoints
+---
 
-Frontend: http://localhost:4200
+### 🔹 Opção 2: Localmente (sem Docker)
 
-Backend: http://localhost:8080
+#### Pré-requisitos
+- [Java 17](https://adoptium.net/)  
+- [Maven](https://maven.apache.org/)  
+- [Node.js](https://nodejs.org/)  
+- Banco de dados PostgreSQL rodando localmente
 
-Swagger UI: http://localhost:8080/swagger-ui.html
+#### Backend
+```bash
+cd backend
+mvn clean spring-boot:run
+```
 
-Banco de Dados: postgres://localhost:5434/incidents_db
+#### Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
 
+---
 
+## 🌐 Endpoints
 
-##### 👤 Usuário Padrão
+- **Frontend:** http://localhost:4200  
+- **Backend:** http://localhost:8080  
+- **Swagger UI:** http://localhost:8080/swagger-ui.html  
+- **Banco de Dados:** postgres://localhost:5434/incidents_db  
+
+---
+
+## 👤 Usuário Padrão
 
 O sistema já vem com um usuário administrador para acesso inicial:
 
-Usuário: matheus@incidents.com
-
-Senha: 123456
+- **Usuário:** matheus@incidents.com  
+- **Senha:** 123456
